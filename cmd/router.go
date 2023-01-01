@@ -7,9 +7,13 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
-	"github.com/miko2823/currency-converter.git/handler"
-	"github.com/miko2823/currency-converter.git/infrastructure/persistence"
-	"github.com/miko2823/currency-converter.git/usecase"
+
+	account_handler "github.com/miko2823/currency-converter.git/handler/account"
+	converter_handler "github.com/miko2823/currency-converter.git/handler/converter"
+	account_infra "github.com/miko2823/currency-converter.git/infrastructure/account"
+	converter_infra "github.com/miko2823/currency-converter.git/infrastructure/converter"
+	account_usecase "github.com/miko2823/currency-converter.git/usecase/account"
+	converter_usecase "github.com/miko2823/currency-converter.git/usecase/converter"
 )
 
 type Routing struct {
@@ -34,12 +38,15 @@ func (routing *Routing) buildHandler() http.Handler {
 	mux.Use(middleware.Logger)
 	mux.Use(middleware.Recoverer)
 
-	converterPersistence := persistence.NewConverterPersistence(routing.config.Env, routing.config.Postgres)
-	converterUseCase := usecase.NewConverterUsecase(converterPersistence)
-	converterHandler := handler.NewConverterHandler(converterUseCase)
+	accountPersistence := account_infra.NewAccountPersistence(routing.config.Env, routing.config.Postgres)
+	accountUseCase := account_usecase.NewAccountUsecase(routing.config.Env, accountPersistence)
+	accountHandler := account_handler.NewAccountHandler(accountUseCase)
 
-	// mux.Route("/v1", func(r chi.Router) {
-	// v1を外にだしたい
+	converterPersistence := converter_infra.NewConverterPersistence(routing.config.Env, routing.config.Postgres)
+	converterUseCase := converter_usecase.NewConverterUsecase(converterPersistence)
+	converterHandler := converter_handler.NewConverterHandler(converterUseCase)
+
+	mux.Mount("/", accountHandler.RegisterHandlers())
 	mux.Mount("/converter", converterHandler.RegisterHandlers())
 
 	// Debug

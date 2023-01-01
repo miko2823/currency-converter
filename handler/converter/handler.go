@@ -1,4 +1,4 @@
-package handler
+package converter
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/miko2823/currency-converter.git/pkg"
-	"github.com/miko2823/currency-converter.git/usecase"
+	usecase "github.com/miko2823/currency-converter.git/usecase/converter"
 )
 
 type ConverterHandler interface {
@@ -22,22 +22,14 @@ func NewConverterHandler(usecase usecase.ConverterUsecase) ConverterHandler {
 	return &converterHandler{usecase}
 }
 
-func (p converterHandler) getLatestRates(w http.ResponseWriter, r *http.Request) {
+func (h converterHandler) getLatestRates(w http.ResponseWriter, r *http.Request) {
 
-	// var requestPayload struct {
-	// 	Id string `json:"id"`
-	// }
-	// err := pkg.ReadJSON(w, r, &requestPayload)
-	// fmt.Println(err)
-	// if err != nil {
-	// 	pkg.ErrorJSON(w, err, http.StatusBadRequest)
-	// }
 	base := r.URL.Query().Get("base")
 	symbols := r.URL.Query().Get("symbols")
 	amount := r.URL.Query().Get("amount")
 	intAmount, _ := strconv.Atoi(amount)
 
-	latestRates, err := p.converterUsecase.GetLatestRates(base, symbols, intAmount)
+	latestRates, err := h.converterUsecase.GetLatestRates(base, symbols, intAmount)
 
 	if err != nil {
 		pkg.ErrorJSON(w, err, http.StatusBadRequest)

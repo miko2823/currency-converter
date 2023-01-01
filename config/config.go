@@ -23,6 +23,8 @@ type Environment struct {
 	DB_PASSWORD       string `json:"DB_PASSWORD"`
 	DB_NAME           string `json:"DB_NAME"`
 	CONVERTER_API_KEY string `json:"CONVERTER_API_KEY"`
+	TOKEN_SIGNING_KEY string `json:"TOKEN_SIGNING_KEY"`
+	TOKEN_EXPIRATION  int    `json:"TOKEN_EXPIRATION"`
 }
 
 func GetEnvironment() (Environment, error) {

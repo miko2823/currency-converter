@@ -1,4 +1,4 @@
-package persistence
+package converter
 
 import (
 	"database/sql"

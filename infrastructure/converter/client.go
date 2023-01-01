@@ -1,4 +1,4 @@
-package persistence
+package converter
 
 import (
 	"encoding/json"
@@ -15,11 +15,10 @@ func (r converterPersistence) GetLatestRates(base string, symbols string, amount
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Set("apikey", r.config.CONVERTER_API_KEY)
 	if err != nil {
 		return models.LatestRates{}, err
 	}
-
+	req.Header.Set("apikey", r.config.CONVERTER_API_KEY)
 	res, err := client.Do(req)
 	if res.Body != nil {
 		defer res.Body.Close()

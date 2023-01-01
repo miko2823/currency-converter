@@ -1,4 +1,4 @@
-package usecase
+package converter
 
 import (
 	"github.com/miko2823/currency-converter.git/domain/converter/models"

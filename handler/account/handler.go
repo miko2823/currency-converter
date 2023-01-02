@@ -10,7 +10,7 @@ import (
 
 type AccountHandler interface {
 	RegisterHandlers() http.Handler
-	login(w http.ResponseWriter, r *http.Request)
+	Login(w http.ResponseWriter, r *http.Request)
 }
 
 type accountHandler struct {
@@ -21,7 +21,7 @@ func NewAccountHandler(usecase usecase.AccountUsecase) AccountHandler {
 	return &accountHandler{usecase}
 }
 
-func (h accountHandler) login(w http.ResponseWriter, r *http.Request) {
+func (h accountHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	var requestPayload struct {
 		UserName string `json:"user_name"`

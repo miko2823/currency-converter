@@ -8,6 +8,6 @@ import (
 
 func (h accountHandler) RegisterHandlers() http.Handler {
 	r := chi.NewRouter()
-	r.Post("/login", h.login)
+	r.Post("/login", h.Login)
 	return r
 }

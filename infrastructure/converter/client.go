@@ -9,14 +9,14 @@ import (
 	"github.com/miko2823/currency-converter.git/domain/converter/models"
 )
 
-func (r converterPersistence) GetLatestRates(base string, symbols string, amount int) (models.LatestRates, error) {
+func (r converterPersistence) GetLatestRates(base string, symbols string, amount int) (*models.LatestRates, error) {
 
 	url := fmt.Sprintf("https://api.apilayer.com/exchangerates_data/latest?symbols=%s&base=%s", symbols, base)
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return models.LatestRates{}, err
+		return nil, err
 	}
 	req.Header.Set("apikey", r.config.CONVERTER_API_KEY)
 	res, err := client.Do(req)
@@ -26,14 +26,14 @@ func (r converterPersistence) GetLatestRates(base string, symbols string, amount
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return models.LatestRates{}, err
+		return nil, err
 	}
 
 	var converterResponse map[string]interface{}
 	latestRate := models.LatestRates{}
 
 	if err := json.Unmarshal([]byte(string(body)), &converterResponse); err != nil {
-		return models.LatestRates{}, err
+		return nil, err
 	}
 
 	latestRate.Base = converterResponse["base"].(string)
@@ -44,5 +44,5 @@ func (r converterPersistence) GetLatestRates(base string, symbols string, amount
 		latestRate.Rates = append(latestRate.Rates, models.Rate{string(key), exchangeAmount})
 	}
 
-	return latestRate, nil
+	return &latestRate, nil
 }

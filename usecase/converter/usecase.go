@@ -6,7 +6,7 @@ import (
 )
 
 type ConverterUsecase interface {
-	GetLatestRates(base string, symbols string, amount int) (models.LatestRates, error)
+	GetLatestRates(base string, symbols string, amount int) (*models.LatestRates, error)
 }
 
 type converterUsecase struct {
@@ -17,10 +17,10 @@ func NewConverterUsecase(repo repository.ConverterRepository) ConverterUsecase {
 	return converterUsecase{repo}
 }
 
-func (u converterUsecase) GetLatestRates(base string, symbols string, amount int) (models.LatestRates, error) {
+func (u converterUsecase) GetLatestRates(base string, symbols string, amount int) (*models.LatestRates, error) {
 	converter, err := u.converterRepository.GetLatestRates(base, symbols, amount)
 	if err != nil {
-		return models.LatestRates{}, err
+		return nil, err
 	}
 
 	return converter, nil

@@ -54,7 +54,6 @@ func (routing *Routing) buildHandler() http.Handler {
 		fmt.Printf("%s %s\n", method, route)
 		return nil
 	}
-
 	if err := chi.Walk(mux, walkFunc); err != nil {
 		fmt.Printf("Logging err: %s\n", err.Error())
 	}

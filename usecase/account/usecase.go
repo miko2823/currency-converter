@@ -11,7 +11,7 @@ import (
 
 type AccountUsecase interface {
 	Login(user_name string, password string) (string, error)
-	generateJWT(user models.User) (string, error)
+	generateJWT(user *models.User) (string, error)
 }
 
 type accountUsecase struct {
@@ -35,7 +35,7 @@ func (u accountUsecase) Login(user_name string, password string) (string, error)
 
 	return token, nil
 }
-func (u accountUsecase) generateJWT(user models.User) (string, error) {
+func (u accountUsecase) generateJWT(user *models.User) (string, error) {
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id":   user.Id,
 		"name": user.UserName,

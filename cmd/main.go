@@ -36,7 +36,7 @@ func main() {
 		Postgres: postgresConn,
 	}
 
-	var routing = Routing{app}
+	routing := Routing{app}
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%s", webPort),

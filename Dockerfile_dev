@@ -2,6 +2,9 @@ FROM golang:1.19.3-alpine as builder
 
 RUN apk update && apk add git make
 
+RUN go install golang.org/x/tools/cmd/goimports@latest
+RUN go install -v github.com/rogpeppe/godef@v1.1.2
+
 WORKDIR /app
 
 COPY . .
@@ -11,11 +14,3 @@ COPY go.* ./
 RUN go mod download
 
 RUN go mod verify
-
-RUN CGO_ENABLED=0 go build -o MyApp ./cmd/
-
-RUN chmod +x /app/MyApp
-
-EXPOSE 80
-
-CMD ["/app/MyApp"]

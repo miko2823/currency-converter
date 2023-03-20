@@ -14,3 +14,5 @@ COPY go.* ./
 RUN go mod download
 
 RUN go mod verify
+
+CMD ["go", "run", "./cmd/"]

@@ -1,6 +1,6 @@
 services:
   app:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile_dev
     tty: true
@@ -8,12 +8,12 @@ services:
       - .:/app
     restart: always
     ports:
-      - 8000:80
-  
+      - 6000:80
+
   postgres:
     image: 'postgres:14.2'
     ports:
-      - "5432:5432"
+      - "5434:5432"
     restart: always
     deploy:
       mode: replicated

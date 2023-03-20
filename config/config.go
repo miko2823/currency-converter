@@ -29,6 +29,11 @@ type Environment struct {
 
 func GetEnvironment() (Environment, error) {
 	f, err := os.Open("./.env/dev.json")
+
+	if err != nil {
+		log.Println(err)
+	}
+
 	os_env := os.Getenv("env")
 
 	if os_env == "prod" {

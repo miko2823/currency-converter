@@ -40,7 +40,7 @@ func (r converterPersistence) GetLatestRates(base string, symbols string, amount
 	latestRate.Amount = amount
 
 	for key, val := range converterResponse["rates"].(map[string]interface{}) {
-		exchangeAmount := 1.0 / val.(float64) * float64(amount)
+		exchangeAmount := val.(float64) * float64(amount)
 		latestRate.Rates = append(latestRate.Rates, models.Rate{string(key), exchangeAmount})
 	}
 

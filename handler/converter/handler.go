@@ -12,6 +12,7 @@ import (
 type ConverterHandler interface {
 	RegisterHandlers() http.Handler
 	getLatestRates(w http.ResponseWriter, r *http.Request)
+	getAllSymbols(w http.ResponseWriter, r *http.Request)
 }
 
 type converterHandler struct {
@@ -38,6 +39,22 @@ func (h converterHandler) getLatestRates(w http.ResponseWriter, r *http.Request)
 	payload := pkg.JsonResponse{
 		Error:   false,
 		Message: fmt.Sprintf("get converter data"),
+		Data:    latestRates,
+	}
+	pkg.WriteJson(w, http.StatusAccepted, payload)
+}
+
+func (h converterHandler) getAllSymbols(w http.ResponseWriter, r *http.Request) {
+
+	latestRates, err := h.converterUsecase.GetAllSymbols()
+
+	if err != nil {
+		pkg.ErrorJSON(w, err, http.StatusBadRequest)
+	}
+
+	payload := pkg.JsonResponse{
+		Error:   false,
+		Message: fmt.Sprintf("get all simbols"),
 		Data:    latestRates,
 	}
 	pkg.WriteJson(w, http.StatusAccepted, payload)

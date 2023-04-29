@@ -46,3 +46,39 @@ func (r converterPersistence) GetLatestRates(base string, symbols string, amount
 
 	return &latestRate, nil
 }
+
+func (r converterPersistence) GetAllSymbols() ([]models.Symbols, error) {
+
+	url := fmt.Sprintf("https://api.apilayer.com/exchangerates_data/symbols")
+	client := &http.Client{}
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("apikey", r.config.CONVERTER_API_KEY)
+	res, err := client.Do(req)
+	if res.Body != nil {
+		defer res.Body.Close()
+	}
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var converterResponse map[string]interface{}
+	var symbolList []models.Symbols
+
+	fmt.Println(string(body))
+
+	if err := json.Unmarshal([]byte(string(body)), &converterResponse); err != nil {
+		return nil, err
+	}
+
+	for key, val := range converterResponse["symbols"].(map[string]interface{}) {
+		symbolList = append(symbolList, models.Symbols{string(key), val.(string)})
+	}
+
+	return symbolList, nil
+}

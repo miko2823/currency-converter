@@ -14,9 +14,12 @@ Simple and light sources, created for being a templates of golang development.
 ### API
 - POST /login(just a demo)
 - GET /converter
+  - convert base amount to symbols rate
   - params: base(base currency)
   - params: symbols(exchange currency with conmma separated)
   - params: amount(amount of base currency to convert)
+- GET /converter/get_all_symbols
+  - get all symbols available
 
 ## develop settings
 Set up env file

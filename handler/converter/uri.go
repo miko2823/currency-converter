@@ -9,6 +9,6 @@ import (
 func (p converterHandler) RegisterHandlers() http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", p.getLatestRates)
-	r.Get("/getAllSymbols", p.getAllSymbols)
+	r.Get("/get_all_symbols", p.getAllSymbols)
 	return r
 }

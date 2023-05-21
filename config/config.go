@@ -81,7 +81,7 @@ func ConnectToDB() (*sql.DB, error) {
 			return connection, nil
 		}
 
-		if dbConnCount > 10 {
+		if dbConnCount > 5 {
 			return nil, errors.New("Failed to connect postgres...")
 		}
 

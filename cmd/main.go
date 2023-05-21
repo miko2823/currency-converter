@@ -2,12 +2,13 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
-	"net/http"
 	"os"
+	"fmt"
 
+	"net/http"
 	"github.com/miko2823/currency-converter.git/config"
+
 )
 
 const webPort = "80"
@@ -22,7 +23,8 @@ func main() {
 	postgresConn, err := config.ConnectToDB()
 	if err != nil {
 		log.Println(err)
-		os.Exit(1)
+		postgresConn = nil;
+		// os.Exit(1)
 	}
 
 	env, err := config.GetEnvironment()

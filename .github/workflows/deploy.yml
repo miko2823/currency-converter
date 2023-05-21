@@ -22,8 +22,11 @@ jobs:
           role-to-assume: ${{ secrets.ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: deploy build file to s3
-        run: aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 201568076829.dkr.ecr.ap-northeast-1.amazonaws.com
+      - name: login to ECR
+        run: aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com
+      - name: build image
         run: docker build -t ${{ env.REPOSITORY_NAME }} .
-        run: docker tag ${{ env.REPOSITORY_NAME }}:latest 201568076829.dkr.ecr.ap-northeast-1.amazonaws.com/${{ env.REPOSITORY_NAME }}:latest
-        run: docker push 201568076829.dkr.ecr.ap-northeast-1.amazonaws.com/${{ env.REPOSITORY_NAME }}:latest
+      - name: tag image
+        run: docker tag ${{ env.REPOSITORY_NAME }}:latest ${{ secrets.AWS_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com/${{ env.REPOSITORY_NAME }}:latest
+      - name: push image to ecr
+        run: docker push ${{ secrets.AWS_ID }}.dkr.ecr.ap-northeast-1.amazonaws.com/${{ env.REPOSITORY_NAME }}:latest

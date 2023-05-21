@@ -16,12 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: build project
-        run: npm run build
-
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

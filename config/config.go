@@ -28,29 +28,33 @@ type Environment struct {
 }
 
 func GetEnvironment() (Environment, error) {
-	f, err := os.Open("./.env/dev.json")
-
-	if err != nil {
-		log.Println(err)
-	}
-
+	var cfg Environment
 	os_env := os.Getenv("env")
 
-	if os_env == "prod" {
-		f, err = os.Open("./.env/prod.json")
+	if os_env == "dev" {
+		f, err := os.Open("./.env/dev.json")
+		defer f.Close()
 		if err != nil {
 			return Environment{}, err
 		}
-	}
-	defer f.Close()
 
-	var cfg Environment
-
-	err = json.NewDecoder(f).Decode(&cfg)
-	if err != nil {
-		return Environment{}, err
+		err = json.NewDecoder(f).Decode(&cfg)
+		if err != nil {
+			return Environment{}, err
+		}
+		return cfg, nil
 	}
-	return cfg, nil
+
+	return Environment{
+		DB_HOST: "postgres",
+		DB_PORT: 5432,
+		DB_USER: "postgres",
+		DB_PASSWORD: "postgres",
+		DB_NAME: "users",
+		CONVERTER_API_KEY: os.Getenv("CONVERTER_API_KEY"),
+		TOKEN_SIGNING_KEY: os.Getenv("TOKEN_SIGNING_KEY"),
+		TOKEN_EXPIRATION: 100,
+	}, nil
 }
 
 func ConnectToDB() (*sql.DB, error) {

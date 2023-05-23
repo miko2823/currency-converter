@@ -45,5 +45,5 @@ Everything are working inside Continer without any setup at local environments.
 - At VSCode, search command "Open Folder in Continer..." and select the root directory.
 - Your local source are mounted to the container and ready to accept request.
 
-## production settings
-- build an image from Docker file
+## Public Access URL
+http://d1m0p5gfo03e5l.cloudfront.net/

@@ -16,7 +16,6 @@ func (p converterHandler) RegisterHandlers() http.Handler {
 		AllowCredentials: true,
 		MaxAge:           300,
 	}))
-	r := chi.NewRouter()
 	r.Get("/", p.getLatestRates)
 	r.Get("/get_all_symbols", p.getAllSymbols)
 	return r

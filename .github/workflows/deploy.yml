@@ -1,6 +1,13 @@
 name: deploy
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "select main branch"
+        required: false
+        default: "this is default"
+
 
 env:
   AWS_REGION: ap-northeast-1

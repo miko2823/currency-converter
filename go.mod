@@ -3,14 +3,14 @@ module github.com/miko2823/currency-converter.git
 go 1.19
 
 require (
-	github.com/go-chi/chi/v5 v5.0.8
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/go-chi/chi/v5 v5.2.2
 	github.com/go-chi/cors v1.2.1
 	github.com/jackc/pgx/v4 v4.17.2
 	github.com/lib/pq v1.10.7
 )
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.13.0 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
